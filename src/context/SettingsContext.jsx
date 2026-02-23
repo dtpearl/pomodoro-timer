@@ -15,9 +15,10 @@ export function SettingsProvider({ children }) {
   const setIconSet = useCallback((set) => updateSettings({ iconSet: set }), [updateSettings]);
   const toggleSound = useCallback(() => setSettings(prev => ({ ...prev, soundEnabled: !prev.soundEnabled })), [setSettings]);
   const setVolume = useCallback((volume) => updateSettings({ soundVolume: volume }), [updateSettings]);
+  const setBackgroundId = useCallback((id) => updateSettings({ backgroundId: id }), [updateSettings]);
 
   return (
-    <SettingsContext.Provider value={{ settings, updateSettings, setAnimationType, setIconSet, toggleSound, setVolume }}>
+    <SettingsContext.Provider value={{ settings, updateSettings, setAnimationType, setIconSet, toggleSound, setVolume, setBackgroundId }}>
       {children}
     </SettingsContext.Provider>
   );

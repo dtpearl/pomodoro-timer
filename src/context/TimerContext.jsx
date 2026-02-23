@@ -110,10 +110,7 @@ export function TimerProvider({ children }) {
 
   const updateSettings = useCallback((newSettings) => {
     setSettings(newSettings);
-    const duration = getInitialDuration(state.mode, newSettings);
-    dispatch({ type: 'PAUSE' });
-    dispatch({ type: 'SET_MODE', mode: state.mode, duration });
-  }, [state.mode, setSettings]);
+  }, [setSettings]);
 
   return (
     <TimerContext.Provider value={{ state, settings, start, pause, reset, skip, updateSettings, progress, totalDuration }}>

@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { useTimer } from '../../context/TimerContext';
 import { useSettings } from '../../context/SettingsContext';
 import { TIMER_LIMITS } from '../../utils/constants';
+import { BACKGROUND_OPTIONS } from '../common/Background';
 import './SettingsPanel.css';
 
 export function SettingsPanel({ isOpen, onClose }) {
   const { settings: timerSettings, updateSettings: updateTimerSettings } = useTimer();
-  const { settings: appSettings, setAnimationType, toggleSound, setVolume } = useSettings();
+  const { settings: appSettings, setAnimationType, toggleSound, setVolume, setBackgroundId } = useSettings();
 
   const [localSettings, setLocalSettings] = useState(timerSettings);
 
@@ -94,6 +95,21 @@ export function SettingsPanel({ isOpen, onClose }) {
                   onClick={() => setAnimationType(type)}
                 >
                   {type.charAt(0).toUpperCase() + type.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="settings-section">
+            <h3>Background</h3>
+            <div className="animation-options">
+              {BACKGROUND_OPTIONS.map(bg => (
+                <button
+                  key={bg.id}
+                  className={`animation-option ${appSettings.backgroundId === bg.id ? 'animation-option--active' : ''}`}
+                  onClick={() => setBackgroundId(bg.id)}
+                >
+                  {bg.label}
                 </button>
               ))}
             </div>

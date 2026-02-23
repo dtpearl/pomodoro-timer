@@ -79,6 +79,7 @@
   transition: fill var(--transition-slow), stroke var(--transition-slow);
 }
 
+/* Bokeh float */
 @keyframes background-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
@@ -91,13 +92,69 @@
 .background-float--5 { animation: background-float 18s ease-in-out infinite 10s; }
 .background-float--6 { animation: background-float 24s ease-in-out infinite 2s; }
 
+/* Wave sway */
+@keyframes background-wave {
+  0%, 100% { transform: translateX(0) translateY(0); }
+  50% { transform: translateX(15px) translateY(-4px); }
+}
+
+.background-wave--1 { animation: background-wave 24s ease-in-out infinite; }
+.background-wave--2 { animation: background-wave 30s ease-in-out infinite 4s; }
+.background-wave--3 { animation: background-wave 26s ease-in-out infinite 8s; }
+
+/* Line drift */
+@keyframes background-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.background-drift--1 { animation: background-drift 22s ease-in-out infinite 2s; }
+.background-drift--2 { animation: background-drift 28s ease-in-out infinite 6s; }
+
+/* Geometric spin */
+@keyframes background-spin {
+  0%, 100% { transform: rotate(45deg); }
+  50% { transform: rotate(55deg); }
+}
+
+.background-spin--1 { animation: background-spin 30s ease-in-out infinite; transform-origin: 130px 150px; }
+.background-spin--2 { animation: background-spin 35s ease-in-out infinite 5s; transform-origin: 1240px 240px; }
+.background-spin--3 { animation: background-spin 25s ease-in-out infinite 10s; transform-origin: 820px 100px; }
+.background-spin--4 { animation: background-spin 32s ease-in-out infinite 3s; transform-origin: 335px 685px; }
+
+/* Zen ripple pulse */
+@keyframes background-ripple {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.6; }
+}
+
+.background-ripple--1 { animation: background-ripple 8s ease-in-out infinite; }
+.background-ripple--2 { animation: background-ripple 8s ease-in-out infinite 0.8s; }
+.background-ripple--3 { animation: background-ripple 8s ease-in-out infinite 1.6s; }
+.background-ripple--4 { animation: background-ripple 10s ease-in-out infinite 2s; }
+.background-ripple--5 { animation: background-ripple 10s ease-in-out infinite 2.8s; }
+.background-ripple--6 { animation: background-ripple 10s ease-in-out infinite 3.6s; }
+
+/* Aurora shimmer */
+@keyframes background-aurora {
+  0%, 100% { transform: translateX(0) scaleY(1); }
+  33% { transform: translateX(20px) scaleY(1.05); }
+  66% { transform: translateX(-15px) scaleY(0.95); }
+}
+
+.background-aurora--1 { animation: background-aurora 18s ease-in-out infinite; }
+.background-aurora--2 { animation: background-aurora 22s ease-in-out infinite 3s; }
+.background-aurora--3 { animation: background-aurora 26s ease-in-out infinite 6s; }
+
 @media (prefers-reduced-motion: reduce) {
-  .background-float--1,
-  .background-float--2,
-  .background-float--3,
-  .background-float--4,
-  .background-float--5,
-  .background-float--6 {
+  .background-float--1, .background-float--2, .background-float--3,
+  .background-float--4, .background-float--5, .background-float--6,
+  .background-wave--1, .background-wave--2, .background-wave--3,
+  .background-drift--1, .background-drift--2,
+  .background-spin--1, .background-spin--2, .background-spin--3, .background-spin--4,
+  .background-ripple--1, .background-ripple--2, .background-ripple--3,
+  .background-ripple--4, .background-ripple--5, .background-ripple--6,
+  .background-aurora--1, .background-aurora--2, .background-aurora--3 {
     animation: none;
   }
 }
