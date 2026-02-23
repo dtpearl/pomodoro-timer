@@ -1,6 +1,4 @@
-import { Theme } from '../types';
-
-export const PRESET_THEMES: Theme[] = [
+export const PRESET_THEMES = [
   {
     id: 'ocean',
     name: 'Ocean',

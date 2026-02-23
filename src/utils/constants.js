@@ -1,6 +1,4 @@
-import { TimerSettings, AppSettings } from '../types';
-
-export const DEFAULT_TIMER_SETTINGS: TimerSettings = {
+export const DEFAULT_TIMER_SETTINGS = {
   workDuration: 25,
   shortBreakDuration: 5,
   longBreakDuration: 15,
@@ -8,7 +6,7 @@ export const DEFAULT_TIMER_SETTINGS: TimerSettings = {
   autoStart: false,
 };
 
-export const DEFAULT_APP_SETTINGS: AppSettings = {
+export const DEFAULT_APP_SETTINGS = {
   animationType: 'circular',
   iconSet: 'modern',
   soundEnabled: true,

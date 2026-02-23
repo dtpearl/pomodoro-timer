@@ -3,7 +3,7 @@ import { useSettings } from '../context/SettingsContext';
 
 export function useAudio() {
   const { settings } = useSettings();
-  const audioContextRef = useRef<AudioContext | null>(null);
+  const audioContextRef = useRef(null);
 
   const playNotification = useCallback(() => {
     if (!settings.soundEnabled) return;

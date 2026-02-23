@@ -1,15 +1,8 @@
-import { useState, useEffect, memo } from 'react';
+import { useEffect, memo } from 'react';
 import { getModeLabel } from '../../utils/formatters';
-import { TimerMode } from '../../types';
 import './Notification.css';
 
-interface NotificationProps {
-  mode: TimerMode;
-  show: boolean;
-  onDismiss: () => void;
-}
-
-export const Notification = memo(function Notification({ mode, show, onDismiss }: NotificationProps) {
+export const Notification = memo(function Notification({ mode, show, onDismiss }) {
   useEffect(() => {
     if (show) {
       const timer = setTimeout(onDismiss, 5000);

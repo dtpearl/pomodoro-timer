@@ -1,18 +1,10 @@
-import { createContext, useContext, useEffect, ReactNode } from 'react';
-import { Theme, ThemeColors } from '../types';
+import { createContext, useContext, useEffect } from 'react';
 import { PRESET_THEMES, DEFAULT_THEME } from '../utils/themes';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-interface ThemeContextValue {
-  currentTheme: Theme;
-  setTheme: (themeId: string) => void;
-  setCustomTheme: (colors: ThemeColors) => void;
-  themes: Theme[];
-}
+const ThemeContext = createContext(null);
 
-const ThemeContext = createContext<ThemeContextValue | null>(null);
-
-function applyThemeToDOM(theme: Theme) {
+function applyThemeToDOM(theme) {
   const root = document.documentElement;
   root.style.setProperty('--color-primary', theme.colors.primary);
   root.style.setProperty('--color-secondary', theme.colors.secondary);
@@ -26,9 +18,9 @@ function applyThemeToDOM(theme: Theme) {
   }
 }
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [themeId, setThemeId] = useLocalStorage<string>('pomo-theme-id', DEFAULT_THEME.id);
-  const [customColors, setCustomColors] = useLocalStorage<ThemeColors | null>('pomo-custom-colors', null);
+export function ThemeProvider({ children }) {
+  const [themeId, setThemeId] = useLocalStorage('pomo-theme-id', DEFAULT_THEME.id);
+  const [customColors, setCustomColors] = useLocalStorage('pomo-custom-colors', null);
 
   const currentTheme = themeId === 'custom' && customColors
     ? { id: 'custom', name: 'Custom', colors: customColors, gradient: `linear-gradient(135deg, ${customColors.primary} 0%, ${customColors.secondary} 50%, ${customColors.accent} 100%)` }
@@ -38,11 +30,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     applyThemeToDOM(currentTheme);
   }, [currentTheme]);
 
-  const setTheme = (id: string) => {
+  const setTheme = (id) => {
     setThemeId(id);
   };
 
-  const setCustomTheme = (colors: ThemeColors) => {
+  const setCustomTheme = (colors) => {
     setCustomColors(colors);
     setThemeId('custom');
   };

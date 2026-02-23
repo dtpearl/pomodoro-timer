@@ -1,16 +1,10 @@
 import { useTheme } from '../../context/ThemeContext';
-import { ThemeColors } from '../../types';
 import './ThemeSelector.css';
 
-interface ThemeSelectorProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function ThemeSelector({ isOpen, onClose }: ThemeSelectorProps) {
+export function ThemeSelector({ isOpen, onClose }) {
   const { currentTheme, setTheme, setCustomTheme, themes } = useTheme();
 
-  const handleCustomColorChange = (key: keyof ThemeColors, value: string) => {
+  const handleCustomColorChange = (key, value) => {
     const base = currentTheme.id === 'custom' ? currentTheme.colors : themes[0].colors;
     setCustomTheme({ ...base, [key]: value });
   };
@@ -50,7 +44,7 @@ export function ThemeSelector({ isOpen, onClose }: ThemeSelectorProps) {
           <div className="theme-section">
             <h3>Custom Colors</h3>
             <div className="custom-colors">
-              {(['primary', 'secondary', 'accent', 'background', 'text'] as (keyof ThemeColors)[]).map(key => (
+              {['primary', 'secondary', 'accent', 'background', 'text'].map(key => (
                 <div key={key} className="color-row">
                   <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
                   <input

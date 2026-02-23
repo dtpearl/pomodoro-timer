@@ -1,33 +1,11 @@
-import { createContext, useContext, useReducer, useCallback, useEffect, useRef, ReactNode } from 'react';
-import { TimerState, TimerSettings, TimerMode } from '../types';
+import { createContext, useContext, useReducer, useCallback, useEffect, useRef } from 'react';
 import { DEFAULT_TIMER_SETTINGS } from '../utils/constants';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { minutesToSeconds } from '../utils/formatters';
 
-type TimerAction =
-  | { type: 'START' }
-  | { type: 'PAUSE' }
-  | { type: 'RESET' }
-  | { type: 'TICK' }
-  | { type: 'COMPLETE' }
-  | { type: 'SKIP' }
-  | { type: 'SET_MODE'; mode: TimerMode; duration: number };
+const TimerContext = createContext(null);
 
-interface TimerContextValue {
-  state: TimerState;
-  settings: TimerSettings;
-  start: () => void;
-  pause: () => void;
-  reset: () => void;
-  skip: () => void;
-  updateSettings: (settings: TimerSettings) => void;
-  progress: number;
-  totalDuration: number;
-}
-
-const TimerContext = createContext<TimerContextValue | null>(null);
-
-function getInitialDuration(mode: TimerMode, settings: TimerSettings): number {
+function getInitialDuration(mode, settings) {
   switch (mode) {
     case 'work': return minutesToSeconds(settings.workDuration);
     case 'shortBreak': return minutesToSeconds(settings.shortBreakDuration);
@@ -35,7 +13,7 @@ function getInitialDuration(mode: TimerMode, settings: TimerSettings): number {
   }
 }
 
-function timerReducer(state: TimerState, action: TimerAction): TimerState {
+function timerReducer(state, action) {
   switch (action.type) {
     case 'START':
       return { ...state, isRunning: true };
@@ -61,10 +39,10 @@ function timerReducer(state: TimerState, action: TimerAction): TimerState {
   }
 }
 
-export function TimerProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useLocalStorage<TimerSettings>('pomo-timer-settings', DEFAULT_TIMER_SETTINGS);
+export function TimerProvider({ children }) {
+  const [settings, setSettings] = useLocalStorage('pomo-timer-settings', DEFAULT_TIMER_SETTINGS);
 
-  const initialState: TimerState = {
+  const initialState = {
     mode: 'work',
     timeRemaining: minutesToSeconds(settings.workDuration),
     isRunning: false,
@@ -73,7 +51,7 @@ export function TimerProvider({ children }: { children: ReactNode }) {
   };
 
   const [state, dispatch] = useReducer(timerReducer, initialState);
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const intervalRef = useRef(null);
 
   const totalDuration = getInitialDuration(state.mode, settings);
   const progress = totalDuration > 0 ? 1 - state.timeRemaining / totalDuration : 0;
@@ -130,7 +108,7 @@ export function TimerProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'SET_MODE', mode: nextMode, duration: nextDuration });
   }, [state.mode, state.currentCycle, settings]);
 
-  const updateSettings = useCallback((newSettings: TimerSettings) => {
+  const updateSettings = useCallback((newSettings) => {
     setSettings(newSettings);
     const duration = getInitialDuration(state.mode, newSettings);
     dispatch({ type: 'PAUSE' });
@@ -144,7 +122,7 @@ export function TimerProvider({ children }: { children: ReactNode }) {
   );
 }
 
-function getNextMode(currentMode: TimerMode, currentCycle: number, cyclesBeforeLong: number): TimerMode {
+function getNextMode(currentMode, currentCycle, cyclesBeforeLong) {
   if (currentMode === 'work') {
     return currentCycle >= cyclesBeforeLong ? 'longBreak' : 'shortBreak';
   }

@@ -2,15 +2,9 @@ import { useState } from 'react';
 import { useTimer } from '../../context/TimerContext';
 import { useSettings } from '../../context/SettingsContext';
 import { TIMER_LIMITS } from '../../utils/constants';
-import { AnimationType } from '../../types';
 import './SettingsPanel.css';
 
-interface SettingsPanelProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
+export function SettingsPanel({ isOpen, onClose }) {
   const { settings: timerSettings, updateSettings: updateTimerSettings } = useTimer();
   const { settings: appSettings, setAnimationType, toggleSound, setVolume } = useSettings();
 
@@ -93,7 +87,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           <div className="settings-section">
             <h3>Animation Style</h3>
             <div className="animation-options">
-              {(['circular', 'bar', 'pulsing', 'minimal'] as AnimationType[]).map(type => (
+              {['circular', 'bar', 'pulsing', 'minimal'].map(type => (
                 <button
                   key={type}
                   className={`animation-option ${appSettings.animationType === type ? 'animation-option--active' : ''}`}

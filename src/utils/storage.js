@@ -1,4 +1,4 @@
-export function loadFromStorage<T>(key: string, fallback: T): T {
+export function loadFromStorage(key, fallback) {
   try {
     const stored = localStorage.getItem(key);
     return stored ? JSON.parse(stored) : fallback;
@@ -7,7 +7,7 @@ export function loadFromStorage<T>(key: string, fallback: T): T {
   }
 }
 
-export function saveToStorage<T>(key: string, value: T): void {
+export function saveToStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
