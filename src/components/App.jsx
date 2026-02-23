@@ -5,6 +5,7 @@ import { SessionCounter } from './timer/SessionCounter';
 import { SettingsPanel } from './settings/SettingsPanel';
 import { ThemeSelector } from './theme/ThemeSelector';
 import { useTheme } from '../context/ThemeContext';
+import { Background } from './common/Background';
 import './App.css';
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <Background />
       <header className="app-header">
         <div className="app-logo">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
