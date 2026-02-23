@@ -1,0 +1,50 @@
+.timer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  color: var(--color-text);
+}
+
+.control-btn:hover {
+  transform: scale(1.08);
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+}
+
+.control-btn--primary {
+  width: 72px;
+  height: 72px;
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 4px 20px color-mix(in srgb, var(--color-primary) 40%, transparent);
+}
+
+.control-btn--primary:hover {
+  box-shadow: 0 6px 28px color-mix(in srgb, var(--color-primary) 55%, transparent);
+}
+
+.control-btn--secondary {
+  width: 48px;
+  height: 48px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text-muted);
+}
+
+.control-btn--secondary:hover {
+  color: var(--color-primary);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}

@@ -1,0 +1,118 @@
+import { Theme } from '../types';
+
+export const PRESET_THEMES: Theme[] = [
+  {
+    id: 'ocean',
+    name: 'Ocean',
+    colors: {
+      primary: '#0369a1',
+      secondary: '#06b6d4',
+      accent: '#10b981',
+      background: '#f0f9ff',
+      surface: '#ffffff',
+      text: '#0c4a6e',
+      textMuted: '#64748b',
+    },
+    gradient: 'linear-gradient(135deg, #0369a1 0%, #06b6d4 50%, #10b981 100%)',
+  },
+  {
+    id: 'sunset',
+    name: 'Sunset',
+    colors: {
+      primary: '#dc2626',
+      secondary: '#f97316',
+      accent: '#facc15',
+      background: '#fef7ed',
+      surface: '#ffffff',
+      text: '#7c2d12',
+      textMuted: '#a8a29e',
+    },
+    gradient: 'linear-gradient(135deg, #dc2626 0%, #f97316 50%, #facc15 100%)',
+  },
+  {
+    id: 'forest',
+    name: 'Forest',
+    colors: {
+      primary: '#15803d',
+      secondary: '#10b981',
+      accent: '#84cc16',
+      background: '#f0fdf4',
+      surface: '#ffffff',
+      text: '#14532d',
+      textMuted: '#6b7280',
+    },
+    gradient: 'linear-gradient(135deg, #15803d 0%, #10b981 50%, #84cc16 100%)',
+  },
+  {
+    id: 'midnight',
+    name: 'Midnight',
+    colors: {
+      primary: '#6366f1',
+      secondary: '#818cf8',
+      accent: '#0ea5e9',
+      background: '#0f172a',
+      surface: '#1e293b',
+      text: '#e2e8f0',
+      textMuted: '#94a3b8',
+    },
+    gradient: 'linear-gradient(135deg, #1e293b 0%, #312e81 50%, #0ea5e9 100%)',
+  },
+  {
+    id: 'candy',
+    name: 'Candy',
+    colors: {
+      primary: '#ec4899',
+      secondary: '#f43f5e',
+      accent: '#fbbf24',
+      background: '#fdf2f8',
+      surface: '#ffffff',
+      text: '#831843',
+      textMuted: '#9ca3af',
+    },
+    gradient: 'linear-gradient(135deg, #ec4899 0%, #f43f5e 50%, #fbbf24 100%)',
+  },
+  {
+    id: 'lavender',
+    name: 'Lavender',
+    colors: {
+      primary: '#7c3aed',
+      secondary: '#a78bfa',
+      accent: '#c084fc',
+      background: '#f5f3ff',
+      surface: '#ffffff',
+      text: '#4c1d95',
+      textMuted: '#8b5cf6',
+    },
+    gradient: 'linear-gradient(135deg, #7c3aed 0%, #a78bfa 50%, #c084fc 100%)',
+  },
+  {
+    id: 'citrus',
+    name: 'Citrus',
+    colors: {
+      primary: '#ea580c',
+      secondary: '#f59e0b',
+      accent: '#65a30d',
+      background: '#fffbeb',
+      surface: '#ffffff',
+      text: '#78350f',
+      textMuted: '#a16207',
+    },
+    gradient: 'linear-gradient(135deg, #ea580c 0%, #f59e0b 50%, #65a30d 100%)',
+  },
+  {
+    id: 'aurora',
+    name: 'Aurora',
+    colors: {
+      primary: '#6366f1',
+      secondary: '#ec4899',
+      accent: '#10b981',
+      background: '#f8fafc',
+      surface: '#ffffff',
+      text: '#1e293b',
+      textMuted: '#64748b',
+    },
+    gradient: 'linear-gradient(135deg, #6366f1 0%, #ec4899 50%, #10b981 100%)',
+  },
+];
+
+export const DEFAULT_THEME = PRESET_THEMES[0];
