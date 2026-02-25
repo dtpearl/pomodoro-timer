@@ -11,7 +11,8 @@ export const DEFAULT_APP_SETTINGS = {
   iconSet: 'modern',
   soundEnabled: true,
   soundVolume: 0.7,
-  backgroundId: 'waves',
+  backgroundElements: ['waves', 'bokeh', 'flowing-lines'],
+  backgroundPositions: {},
 };
 
 export const TIMER_LIMITS = {

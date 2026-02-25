@@ -204,6 +204,24 @@
   color: var(--color-text);
 }
 
+.bg-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.bg-element-group {
+  margin-top: 12px;
+}
+
+.bg-element-group h4 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
 .animation-options {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -227,6 +245,11 @@
 
 .animation-option--active {
   background: var(--color-primary);
+  color: white;
+}
+
+.animation-option--active:hover {
+  background: color-mix(in srgb, var(--color-primary) 80%, black);
   color: white;
 }
 

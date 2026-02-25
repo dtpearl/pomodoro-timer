@@ -6,6 +6,8 @@
 }
 
 .app-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -46,17 +48,21 @@
 }
 
 .app-main {
+  position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 24px;
+  pointer-events: none;
 }
 
 .timer-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  pointer-events: auto;
 }
 
 /* Tranquil SVG background */
@@ -64,13 +70,13 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  pointer-events: none;
   overflow: hidden;
 }
 
 .background-svg {
   width: 100%;
   height: 100%;
+  pointer-events: none;
   display: block;
 }
 
@@ -145,6 +151,18 @@
 .background-aurora--1 { animation: background-aurora 18s ease-in-out infinite; }
 .background-aurora--2 { animation: background-aurora 22s ease-in-out infinite 3s; }
 .background-aurora--3 { animation: background-aurora 26s ease-in-out infinite 6s; }
+
+/* Draggable background elements */
+.background-draggable {
+  cursor: grab;
+  pointer-events: all;
+}
+
+.background-draggable--dragging {
+  cursor: grabbing;
+  opacity: 1.5;
+  filter: brightness(1.3);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .background-float--1, .background-float--2, .background-float--3,

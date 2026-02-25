@@ -3,12 +3,12 @@ import { useTimer } from '../../context/TimerContext';
 import { useSettings } from '../../context/SettingsContext';
 import { useTheme } from '../../context/ThemeContext';
 import { TIMER_LIMITS } from '../../utils/constants';
-import { BACKGROUND_OPTIONS } from '../common/Background';
+import { BACKGROUND_ELEMENT_GROUPS, PRESET_MAPPINGS, ALL_ELEMENT_IDS } from '../common/Background';
 import './SettingsPanel.css';
 
 export function SettingsPanel({ isOpen, onClose }) {
   const { settings: timerSettings, updateSettings: updateTimerSettings } = useTimer();
-  const { settings: appSettings, setAnimationType, toggleSound, setVolume, setBackgroundId } = useSettings();
+  const { settings: appSettings, setAnimationType, toggleSound, setVolume, setBackgroundElements, toggleBackgroundElement, resetBackgroundPositions } = useSettings();
   const { currentTheme, setTheme, setCustomTheme, themes } = useTheme();
 
   const [activeTab, setActiveTab] = useState('timer');
@@ -188,16 +188,37 @@ export function SettingsPanel({ isOpen, onClose }) {
 
               <div className="settings-section">
                 <h3>Background</h3>
-                <div className="animation-options">
-                  {BACKGROUND_OPTIONS.map(bg => (
+                <div className="bg-presets">
+                  {Object.entries(PRESET_MAPPINGS).map(([key, ids]) => (
                     <button
-                      key={bg.id}
-                      className={`animation-option ${appSettings.backgroundId === bg.id ? 'animation-option--active' : ''}`}
-                      onClick={() => setBackgroundId(bg.id)}
+                      key={key}
+                      className="animation-option"
+                      onClick={() => setBackgroundElements(ids)}
                     >
-                      {bg.label}
+                      {key.charAt(0).toUpperCase() + key.slice(1)}
                     </button>
                   ))}
+                  <button className="animation-option" onClick={() => setBackgroundElements(ALL_ELEMENT_IDS)}>All</button>
+                  <button className="animation-option" onClick={() => setBackgroundElements([])}>None</button>
+                </div>
+                {BACKGROUND_ELEMENT_GROUPS.map(group => (
+                  <div key={group.group} className="bg-element-group">
+                    <h4>{group.group}</h4>
+                    <div className="animation-options">
+                      {group.elements.map(el => (
+                        <button
+                          key={el.id}
+                          className={`animation-option ${(appSettings.backgroundElements || []).includes(el.id) ? 'animation-option--active' : ''}`}
+                          onClick={() => toggleBackgroundElement(el.id)}
+                        >
+                          {el.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                <div className="bg-element-group">
+                  <button className="animation-option" onClick={resetBackgroundPositions}>Reset Positions</button>
                 </div>
               </div>
             </>
