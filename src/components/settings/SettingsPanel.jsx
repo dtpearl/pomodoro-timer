@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTimer } from '../../context/TimerContext';
 import { useSettings } from '../../context/SettingsContext';
+import { useTheme } from '../../context/ThemeContext';
 import { TIMER_LIMITS } from '../../utils/constants';
 import { BACKGROUND_OPTIONS } from '../common/Background';
 import './SettingsPanel.css';
@@ -8,12 +9,18 @@ import './SettingsPanel.css';
 export function SettingsPanel({ isOpen, onClose }) {
   const { settings: timerSettings, updateSettings: updateTimerSettings } = useTimer();
   const { settings: appSettings, setAnimationType, toggleSound, setVolume, setBackgroundId } = useSettings();
+  const { currentTheme, setTheme, setCustomTheme, themes } = useTheme();
 
   const [localSettings, setLocalSettings] = useState(timerSettings);
 
   const handleSave = () => {
     updateTimerSettings(localSettings);
     onClose();
+  };
+
+  const handleCustomColorChange = (key, value) => {
+    const base = currentTheme.id === 'custom' ? currentTheme.colors : themes[0].colors;
+    setCustomTheme({ ...base, [key]: value });
   };
 
   if (!isOpen) return null;
@@ -32,6 +39,38 @@ export function SettingsPanel({ isOpen, onClose }) {
         </div>
 
         <div className="settings-body">
+          <div className="settings-section">
+            <h3>Theme</h3>
+            <div className="theme-grid">
+              {themes.map(theme => (
+                <button
+                  key={theme.id}
+                  className={`theme-card ${currentTheme.id === theme.id ? 'theme-card--active' : ''}`}
+                  onClick={() => setTheme(theme.id)}
+                >
+                  <div className="theme-preview" style={{ background: theme.gradient }} />
+                  <span className="theme-name">{theme.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="settings-section">
+            <h3>Custom Colors</h3>
+            <div className="custom-colors">
+              {['primary', 'secondary', 'accent', 'background', 'text'].map(key => (
+                <div key={key} className="color-row">
+                  <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                  <input
+                    type="color"
+                    value={currentTheme.colors[key]}
+                    onChange={e => handleCustomColorChange(key, e.target.value)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="settings-section">
             <h3>Timer Durations</h3>
             <div className="setting-row">
