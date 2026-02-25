@@ -16,7 +16,6 @@
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
 }
 
 .settings-header {
@@ -49,12 +48,38 @@
   color: var(--color-text);
 }
 
+.settings-tabs {
+  display: flex;
+  padding: 0 24px;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text-muted) 15%, transparent);
+}
+
+.settings-tab {
+  flex: 1;
+  padding: 12px 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.settings-tab:hover {
+  color: var(--color-text);
+}
+
+.settings-tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
 .settings-body {
   flex: 1;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 28px;
+  overflow-y: auto;
 }
 
 .settings-section h3 {

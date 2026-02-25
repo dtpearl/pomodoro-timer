@@ -11,6 +11,7 @@ export function SettingsPanel({ isOpen, onClose }) {
   const { settings: appSettings, setAnimationType, toggleSound, setVolume, setBackgroundId } = useSettings();
   const { currentTheme, setTheme, setCustomTheme, themes } = useTheme();
 
+  const [activeTab, setActiveTab] = useState('timer');
   const [localSettings, setLocalSettings] = useState(timerSettings);
 
   const handleSave = () => {
@@ -38,152 +39,177 @@ export function SettingsPanel({ isOpen, onClose }) {
           </button>
         </div>
 
-        <div className="settings-body">
-          <div className="settings-section">
-            <h3>Theme</h3>
-            <div className="theme-grid">
-              {themes.map(theme => (
-                <button
-                  key={theme.id}
-                  className={`theme-card ${currentTheme.id === theme.id ? 'theme-card--active' : ''}`}
-                  onClick={() => setTheme(theme.id)}
-                >
-                  <div className="theme-preview" style={{ background: theme.gradient }} />
-                  <span className="theme-name">{theme.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
+        <div className="settings-tabs">
+          <button
+            className={`settings-tab ${activeTab === 'timer' ? 'settings-tab--active' : ''}`}
+            onClick={() => setActiveTab('timer')}
+          >
+            Timer
+          </button>
+          <button
+            className={`settings-tab ${activeTab === 'theme' ? 'settings-tab--active' : ''}`}
+            onClick={() => setActiveTab('theme')}
+          >
+            Theme
+          </button>
+        </div>
 
-          <div className="settings-section">
-            <h3>Custom Colors</h3>
-            <div className="custom-colors">
-              {['primary', 'secondary', 'accent', 'background', 'text'].map(key => (
-                <div key={key} className="color-row">
-                  <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+        <div className="settings-body">
+          {activeTab === 'timer' && (
+            <>
+              <div className="settings-section">
+                <h3>Timer Durations</h3>
+                <div className="setting-row">
+                  <label>Focus: {localSettings.workDuration} min</label>
                   <input
-                    type="color"
-                    value={currentTheme.colors[key]}
-                    onChange={e => handleCustomColorChange(key, e.target.value)}
+                    type="range"
+                    min={TIMER_LIMITS.workMin}
+                    max={TIMER_LIMITS.workMax}
+                    value={localSettings.workDuration}
+                    onChange={e => setLocalSettings(s => ({ ...s, workDuration: +e.target.value }))}
                   />
                 </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="settings-section">
-            <h3>Timer Durations</h3>
-            <div className="setting-row">
-              <label>Focus: {localSettings.workDuration} min</label>
-              <input
-                type="range"
-                min={TIMER_LIMITS.workMin}
-                max={TIMER_LIMITS.workMax}
-                value={localSettings.workDuration}
-                onChange={e => setLocalSettings(s => ({ ...s, workDuration: +e.target.value }))}
-              />
-            </div>
-            <div className="setting-row">
-              <label>Short Break: {localSettings.shortBreakDuration} min</label>
-              <input
-                type="range"
-                min={TIMER_LIMITS.shortBreakMin}
-                max={TIMER_LIMITS.shortBreakMax}
-                value={localSettings.shortBreakDuration}
-                onChange={e => setLocalSettings(s => ({ ...s, shortBreakDuration: +e.target.value }))}
-              />
-            </div>
-            <div className="setting-row">
-              <label>Long Break: {localSettings.longBreakDuration} min</label>
-              <input
-                type="range"
-                min={TIMER_LIMITS.longBreakMin}
-                max={TIMER_LIMITS.longBreakMax}
-                value={localSettings.longBreakDuration}
-                onChange={e => setLocalSettings(s => ({ ...s, longBreakDuration: +e.target.value }))}
-              />
-            </div>
-            <div className="setting-row">
-              <label>Cycles before long break: {localSettings.cyclesBeforeLongBreak}</label>
-              <input
-                type="range"
-                min={TIMER_LIMITS.cyclesMin}
-                max={TIMER_LIMITS.cyclesMax}
-                value={localSettings.cyclesBeforeLongBreak}
-                onChange={e => setLocalSettings(s => ({ ...s, cyclesBeforeLongBreak: +e.target.value }))}
-              />
-            </div>
-            <div className="setting-row setting-row--toggle">
-              <label>Auto-start next session</label>
-              <button
-                className={`toggle ${localSettings.autoStart ? 'toggle--on' : ''}`}
-                onClick={() => setLocalSettings(s => ({ ...s, autoStart: !s.autoStart }))}
-              >
-                <span className="toggle-thumb" />
-              </button>
-            </div>
-          </div>
-
-          <div className="settings-section">
-            <h3>Animation Style</h3>
-            <div className="animation-options">
-              {['circular', 'bar', 'pulsing', 'minimal'].map(type => (
-                <button
-                  key={type}
-                  className={`animation-option ${appSettings.animationType === type ? 'animation-option--active' : ''}`}
-                  onClick={() => setAnimationType(type)}
-                >
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="settings-section">
-            <h3>Background</h3>
-            <div className="animation-options">
-              {BACKGROUND_OPTIONS.map(bg => (
-                <button
-                  key={bg.id}
-                  className={`animation-option ${appSettings.backgroundId === bg.id ? 'animation-option--active' : ''}`}
-                  onClick={() => setBackgroundId(bg.id)}
-                >
-                  {bg.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="settings-section">
-            <h3>Sound</h3>
-            <div className="setting-row setting-row--toggle">
-              <label>Notification Sound</label>
-              <button
-                className={`toggle ${appSettings.soundEnabled ? 'toggle--on' : ''}`}
-                onClick={toggleSound}
-              >
-                <span className="toggle-thumb" />
-              </button>
-            </div>
-            {appSettings.soundEnabled && (
-              <div className="setting-row">
-                <label>Volume: {Math.round(appSettings.soundVolume * 100)}%</label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={appSettings.soundVolume * 100}
-                  onChange={e => setVolume(+e.target.value / 100)}
-                />
+                <div className="setting-row">
+                  <label>Short Break: {localSettings.shortBreakDuration} min</label>
+                  <input
+                    type="range"
+                    min={TIMER_LIMITS.shortBreakMin}
+                    max={TIMER_LIMITS.shortBreakMax}
+                    value={localSettings.shortBreakDuration}
+                    onChange={e => setLocalSettings(s => ({ ...s, shortBreakDuration: +e.target.value }))}
+                  />
+                </div>
+                <div className="setting-row">
+                  <label>Long Break: {localSettings.longBreakDuration} min</label>
+                  <input
+                    type="range"
+                    min={TIMER_LIMITS.longBreakMin}
+                    max={TIMER_LIMITS.longBreakMax}
+                    value={localSettings.longBreakDuration}
+                    onChange={e => setLocalSettings(s => ({ ...s, longBreakDuration: +e.target.value }))}
+                  />
+                </div>
+                <div className="setting-row">
+                  <label>Cycles before long break: {localSettings.cyclesBeforeLongBreak}</label>
+                  <input
+                    type="range"
+                    min={TIMER_LIMITS.cyclesMin}
+                    max={TIMER_LIMITS.cyclesMax}
+                    value={localSettings.cyclesBeforeLongBreak}
+                    onChange={e => setLocalSettings(s => ({ ...s, cyclesBeforeLongBreak: +e.target.value }))}
+                  />
+                </div>
+                <div className="setting-row setting-row--toggle">
+                  <label>Auto-start next session</label>
+                  <button
+                    className={`toggle ${localSettings.autoStart ? 'toggle--on' : ''}`}
+                    onClick={() => setLocalSettings(s => ({ ...s, autoStart: !s.autoStart }))}
+                  >
+                    <span className="toggle-thumb" />
+                  </button>
+                </div>
               </div>
-            )}
-          </div>
+
+              <div className="settings-section">
+                <h3>Timer Animation</h3>
+                <div className="animation-options">
+                  {['circular', 'bar', 'pulsing', 'minimal'].map(type => (
+                    <button
+                      key={type}
+                      className={`animation-option ${appSettings.animationType === type ? 'animation-option--active' : ''}`}
+                      onClick={() => setAnimationType(type)}
+                    >
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="settings-section">
+                <h3>Sound</h3>
+                <div className="setting-row setting-row--toggle">
+                  <label>Notification Sound</label>
+                  <button
+                    className={`toggle ${appSettings.soundEnabled ? 'toggle--on' : ''}`}
+                    onClick={toggleSound}
+                  >
+                    <span className="toggle-thumb" />
+                  </button>
+                </div>
+                {appSettings.soundEnabled && (
+                  <div className="setting-row">
+                    <label>Volume: {Math.round(appSettings.soundVolume * 100)}%</label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={appSettings.soundVolume * 100}
+                      onChange={e => setVolume(+e.target.value / 100)}
+                    />
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {activeTab === 'theme' && (
+            <>
+              <div className="settings-section">
+                <h3>Theme</h3>
+                <div className="theme-grid">
+                  {themes.map(theme => (
+                    <button
+                      key={theme.id}
+                      className={`theme-card ${currentTheme.id === theme.id ? 'theme-card--active' : ''}`}
+                      onClick={() => setTheme(theme.id)}
+                    >
+                      <div className="theme-preview" style={{ background: theme.gradient }} />
+                      <span className="theme-name">{theme.name}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="settings-section">
+                <h3>Custom Colors</h3>
+                <div className="custom-colors">
+                  {['primary', 'secondary', 'accent', 'background', 'text'].map(key => (
+                    <div key={key} className="color-row">
+                      <label>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                      <input
+                        type="color"
+                        value={currentTheme.colors[key]}
+                        onChange={e => handleCustomColorChange(key, e.target.value)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="settings-section">
+                <h3>Background</h3>
+                <div className="animation-options">
+                  {BACKGROUND_OPTIONS.map(bg => (
+                    <button
+                      key={bg.id}
+                      className={`animation-option ${appSettings.backgroundId === bg.id ? 'animation-option--active' : ''}`}
+                      onClick={() => setBackgroundId(bg.id)}
+                    >
+                      {bg.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
-        <div className="settings-footer">
-          <button className="btn btn--secondary" onClick={onClose}>Cancel</button>
-          <button className="btn btn--primary" onClick={handleSave}>Save</button>
-        </div>
+        {activeTab === 'timer' && (
+          <div className="settings-footer">
+            <button className="btn btn--secondary" onClick={onClose}>Cancel</button>
+            <button className="btn btn--primary" onClick={handleSave}>Save</button>
+          </div>
+        )}
       </div>
     </div>
   );
