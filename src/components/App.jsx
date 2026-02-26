@@ -75,6 +75,10 @@ export default function App() {
               {getModeLabel(state.mode).toLowerCase()} duration.
             </p>
             <p>Reset the current timer or skip to the next session?</p>
+            <p>
+              The new {getModeLabel(state.mode).toLowerCase()} duration will
+              apply for the next session.
+            </p>
             <div className="conflict-actions">
               <button
                 className="btn btn--secondary"
