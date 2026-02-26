@@ -3,7 +3,7 @@ import { useTimer } from '../../context/TimerContext';
 import './TimerControls.css';
 
 export const TimerControls = memo(function TimerControls() {
-  const { state, start, pause, reset, skip } = useTimer();
+  const { state, start, pause, reset, skip, fastForward } = useTimer();
 
   return (
     <div className="timer-controls">
@@ -37,6 +37,15 @@ export const TimerControls = memo(function TimerControls() {
           <rect x="15" y="4" width="4" height="16" rx="1" />
         </svg>
       </button>
+
+      {import.meta.env.DEV && (
+        <button className="control-btn control-btn--secondary" onClick={fastForward} title="Fast Forward 1min (dev)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="3,4 13,12 3,20" />
+            <polygon points="11,4 21,12 11,20" />
+          </svg>
+        </button>
+      )}
     </div>
   );
 });
