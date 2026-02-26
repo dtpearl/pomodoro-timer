@@ -74,7 +74,7 @@ export default function App() {
               You've already exceeded the new{" "}
               {getModeLabel(state.mode).toLowerCase()} duration.
             </p>
-            <p>Reset the timer or skip to the next session?</p>
+            <p>Reset the current timer or skip to the next session?</p>
             <div className="conflict-actions">
               <button
                 className="btn btn--secondary"
